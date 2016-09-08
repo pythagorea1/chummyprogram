@@ -1,0 +1,23 @@
+[url] : 部屋の URL
+[name] : 部屋名
+[user_id] : 部屋主のユーザー ID
+[host_name] : 部屋主の名前
+[price] : 1 泊 1 人あたりの値段
+[address] : 部屋の住所
+[star_rating] : 部屋の 5 段階評価
+[review_count] : その部屋を評価した人の人数
+[person_capacity] : 収容人数
+[host_other_property_review_count] : 察しろ。分からん(多分、部屋主が他の部屋をレビューした回数くらい)
+[min_nights] : 最低宿泊数
+[profile_path] : 部屋主のプロフィールのアドレス (詳しく : /users/show/14906609 なら https://www.airbnb.jp/users/show/14906609 を開けばいい)
+[businessTravelReadyRequiredAmenitiesTags] : アメニティと設備
+[extra_people] : 人数が増えた時の価格の増加分
+[cleaning_fee] : クリーニング費用
+以下 : 部屋のより詳しいレビューの 10 段階評価
+[accuracy] : 正確さ
+[communication] : コミュニケーション
+[cleanliness] : 清潔さ
+[location] : 場所のよさ
+[checkin] : チェックインのしやすさ
+[cost_performance] : コスパのよさ
+[review_score] : 総合評価(計算式は知らない)

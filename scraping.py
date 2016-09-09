@@ -136,7 +136,7 @@ for link in SetOfRooms:
 		
 
 print(str(len(SetOfRooms)) + " 件取得しました.")
-csvFile = open(locationName+".csv","w+",newline="")
+csvFile = open(locationName+".csv","w+",newline="",encoding = 'utf-8')
 try:
 	writer = csv.writer(csvFile)
 	writer.writerow(tuple(ks))

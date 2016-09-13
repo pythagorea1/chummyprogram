@@ -86,8 +86,14 @@ def getInfo(link):
 			
 
 SetOfRooms = set()
-print("検索したい場所は? (例 : 東京, ローマ字も可能) : ",end="")
-location = input()
+SetOfLocations = set()
+while True:
+	print("検索したい場所は? (例 : 東京, ローマ字も可能) : ",end="")
+	location = input()
+	SetOfLocations.add(location)
+	if location == "end":
+		break;
+	
 while True:
 	print("何件くらい取得したいですか? (例 : 300) : ",end="")
 	number = input()
@@ -101,23 +107,27 @@ while True:
 	if re.match("^[a-zA-Z0-9]*$",locationName) != None:
 		break
 infos = []
-for x in range(0,number):
-	site= "https://www.airbnb.jp/s/"+toUnicodeEscape(location)+"?guests=1&page="+str(x)
-	req = Request(site,headers=hdr)
-	try:
-		html = urlopen(req)
-	except (HTTPError,URLError) as e:
-		print(e)
+for location in SetOfLocations:
+	if location == "end":
 		pass
 	else:
-		bsObj = BeautifulSoup(html,"html.parser")
-		roomUrls = bsObj.findAll("a",href = re.compile("^(/rooms/)((?![a-z]).)*"))
-		for link in roomUrls:
-			hrefOfRoom = link.attrs['href']
-			if re.match("(^/rooms/)((?![a-z]).)*",hrefOfRoom).group() != "/rooms/":
-				if hrefOfRoom not in SetOfRooms:
-					SetOfRooms.add(hrefOfRoom)
-					print("https://www.airbnb.jp"+hrefOfRoom)
+		for x in range(0,number):
+			site= "https://www.airbnb.jp/s/"+toUnicodeEscape(location)+"?guests=1&page="+str(x)
+			req = Request(site,headers=hdr)
+			try:
+				html = urlopen(req)
+			except (HTTPError,URLError) as e:
+				print(e)
+				pass
+			else:
+				bsObj = BeautifulSoup(html,"html.parser")
+				roomUrls = bsObj.findAll("a",href = re.compile("^(/rooms/)((?![a-z]).)*"))
+				for link in roomUrls:
+					hrefOfRoom = link.attrs['href']
+					if re.match("(^/rooms/)((?![a-z]).)*",hrefOfRoom).group() != "/rooms/":
+						if hrefOfRoom not in SetOfRooms:
+							SetOfRooms.add(hrefOfRoom)
+							print("https://www.airbnb.jp"+hrefOfRoom)
 
 numOfLink = len(SetOfRooms)
 print(str(numOfLink) + " 件発見しました.")

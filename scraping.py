@@ -51,7 +51,8 @@ def getInfo(link):
 	try:
 		req2 = Request(link,headers=hdr)
 		html = urlopen(req2)
-	except (HTTPError,URLError):
+	except (HTTPError,URLError) as e:
+		print(e)
 		return None
 	bsObj2 = BeautifulSoup(html,"html.parser")
 	data=urlopen(req2).read()
@@ -105,7 +106,8 @@ for x in range(0,number):
 	req = Request(site,headers=hdr)
 	try:
 		html = urlopen(req)
-	except (HTTPError,URLError):
+	except (HTTPError,URLError) as e:
+		print(e)
 		pass
 	else:
 		bsObj = BeautifulSoup(html,"html.parser")

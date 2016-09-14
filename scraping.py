@@ -50,40 +50,43 @@ hdr = {'User-Agent': 'Mozilla/5.0'}
 def getInfo(link):
 	try:
 		req2 = Request(link,headers=hdr)
+		sleep(3)
+		print("3秒後に上のURLにアクセスします...")
 		html = urlopen(req2)
 	except (HTTPError,URLError) as e:
 		print(e)
 		return None
-	bsObj2 = BeautifulSoup(html,"html.parser")
-	data=urlopen(req2).read()
-	jsonFiles = bsObj2.findAll("script",{"type":"application/json"})
-	num=0
-	info=default.copy()
-	info["url"] = link
-	for jsonFile in jsonFiles:
-		s = str(jsonFile)
-		f = s[s.find("{") : s.rfind("}") + 1]
-		num += 1
-		responseJson = json.loads(f)
-		for key in howto.keys():
-			setValue(info,key,getWhatYouNeed(responseJson,howto[key]))
-	length = len(info["review_summary"])
-	lengthOfAmenities = len(info["listing_amenities"])
-	for i in range(0,length):
-		hoge = info["review_summary"][i]
-		if hoge != None:
-			info[review[i]] = info["review_summary"][i].get("value")
-	
-	for i in range(0,lengthOfAmenities):
-		hoge = info["listing_amenities"][i]
-		if hoge != None:
-			info[hoge.get("tag")] = hoge.get("is_present")
-				
-	info["cleaning_fee"] = info["cleaning_fee"].replace("&amp;yen; ","￥")
-	info["extra_people"] = info["extra_people"].replace("&amp;yen; ","￥")
+	else:
+		bsObj2 = BeautifulSoup(html,"html.parser")
+		data=urlopen(req2).read()
+		jsonFiles = bsObj2.findAll("script",{"type":"application/json"})
+		num=0
+		info=default.copy()
+		info["url"] = link
+		for jsonFile in jsonFiles:
+			s = str(jsonFile)
+			f = s[s.find("{") : s.rfind("}") + 1]
+			num += 1
+			responseJson = json.loads(f)
+			for key in howto.keys():
+				setValue(info,key,getWhatYouNeed(responseJson,howto[key]))
+		length = len(info["review_summary"])
+		lengthOfAmenities = len(info["listing_amenities"])
+		for i in range(0,length):
+			hoge = info["review_summary"][i]
+			if hoge != None:
+				info[review[i]] = info["review_summary"][i].get("value")
 		
-	return info
+		for i in range(0,lengthOfAmenities):
+			hoge = info["listing_amenities"][i]
+			if hoge != None:
+				info[hoge.get("tag")] = hoge.get("is_present")
+					
+		info["cleaning_fee"] = info["cleaning_fee"].replace("&amp;yen; ","￥")
+		info["extra_people"] = info["extra_people"].replace("&amp;yen; ","￥")
 			
+		return info
+				
 
 SetOfRooms = set()
 SetOfLocations = set()
@@ -115,6 +118,8 @@ for location in SetOfLocations:
 			site= "https://www.airbnb.jp/s/"+toUnicodeEscape(location)+"?guests=1&page="+str(x)
 			req = Request(site,headers=hdr)
 			try:
+				sleep(3)
+				print("3秒後に次のページにアクセスします...")
 				html = urlopen(req)
 			except (HTTPError,URLError) as e:
 				print(e)

@@ -50,7 +50,7 @@ hdr = {'User-Agent': 'Mozilla/5.0'}
 def getInfo(link):
 	try:
 		req2 = Request(link,headers=hdr)
-		sleep(3)
+		sleep(interval)
 		print("3秒後に上のURLにアクセスします...")
 		html = urlopen(req2)
 	except (HTTPError,URLError) as e:
@@ -105,6 +105,13 @@ while True:
 		break
 
 while True:
+	print("何秒間隔で取得したいですか? (例 : 3) : ",end="")
+	number = input()
+	if re.match("^[0-9]*$",number) != None:
+		interval = int(number)
+		break
+
+while True:
 	print("保存名 (例 : AirbnbInTokyo, 半角英数字のみ) : ",end="")
 	locationName = input()
 	if re.match("^[a-zA-Z0-9]*$",locationName) != None:
@@ -118,7 +125,7 @@ for location in SetOfLocations:
 			site= "https://www.airbnb.jp/s/"+toUnicodeEscape(location)+"?guests=1&page="+str(x)
 			req = Request(site,headers=hdr)
 			try:
-				sleep(3)
+				sleep(interval)
 				print("3秒後に次のページにアクセスします...")
 				html = urlopen(req)
 			except (HTTPError,URLError) as e:
